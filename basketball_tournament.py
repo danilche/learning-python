@@ -1,68 +1,63 @@
 from random import *
 
-def prob(x, y):
-    prob = (x / (x + y))
-    return prob
+def strengthHome(strength, homeIndex):
+    strength_home_index = (strength + homeIndex) / 100
+    return strength_home_index
+
+def strengthAway(strength, awayIndex):
+    strength_away_index = (strength - awayIndex) / 100
+    return strength_away_index
  
-def score(prob):
+def score(strength_index):
     score = 0
     for j in range(160):    
-        if random() <= prob:
+        if random() <= strength_index:
             score = score + 1
         else:
             pass
     return score
 
-def overtime(prob):
+def overtime(strength_index):
     ot_score = 0
     for j in range(30):    
-        if random() <= prob:
+        if random() <= strength_index:
             ot_score = ot_score + 1
         else:
             pass
     return ot_score
 
-def inputs():
-          
+def inputs():      
     name = input("Enter team name: ")
     strength = int(input("Enter team strength on scale 1 - 100: "))
-    return name, strength
+    homeIndex = int(input("Enter home court index on scale 1 - 5: "))
+    awayIndex = int(input("Enter away court index on scale 1 - 5: "))
+    return name, strength, homeIndex, awayIndex
 
-def game(x, y):    
-    
-    score_x = score(prob(x, y)) 
-    score_y = score(prob(y, x))
-    if score_x > score_y:
-        winner = x
-    elif score_x < score_y:
-        winner = y
+def game(team_a, team_b):    
+    scoreA = score(strengthHome(team_a[1], team_a[2])) 
+    scoreB = score(strengthAway(team_b[1], team_b[3]))
+    if scoreA > scoreB:
+        winner = team_a
+    elif scoreA < scoreB:
+        winner = team_b
     else:
-        while score_x == score_y:
-            ot_x = overtime(prob(x, y))
-            ot_y = overtime(prob(y, x))
-            score_x = score_x + ot_x
-            score_y = score_y + ot_y
-            if score_x > score_y:
-                winner = x
+        while scoreA == scoreA:
+            otA = overtime(strengthHome(team_a[1], team_a[2]))
+            otB = overtime(strengthAway(team_b[1], team_b[3]))
+            scoreA = scoreA + otA
+            scoreB = scoreB + otB
+            if scoreA > scoreB:
+                winner = team_a
             else:
-                winner = y
+                winner = team_b
 
-    return score_x, score_y, winner
+    return scoreA, scoreB, winner
 
-#def series():
-#    game_1 = game(x, y)
-#    game_2 = game(y, x)
-    
-def main():
-    a = inputs()
-    b = inputs()
-#    c = inputs()
-#    d = inputs()
-    winner1 = game(a, b)
-    print("The winner is", winner)
-    print("The score was {} - {} {}:{}".format(a[0], b[0], score_x, score_y))
-#    winner2 = game(b, a)
-#    final = game(winner1, winner2)
-    
+def main():    
+    team_a = inputs()
+    team_b = inputs()
+    scoreA, scoreB, winner = game(team_a, team_b)
+    print("{} - {}    {}:{}".format(team_a[0], team_b[0], scoreA, scoreB))
+    print("Winner is", winner[0])
     
 main()
