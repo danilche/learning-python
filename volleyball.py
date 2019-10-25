@@ -49,11 +49,9 @@ def result(result_a, result_b, score_a, score_b):
         result_b.append(1)
     return result_a, result_b
 
-def main():
+def match(name_a, strength_a, name_b, strength_b):
     result_a = []
-    result_b = []
-    name_a, strength_a = inputs()
-    name_b, strength_b = inputs()
+    result_b = [] 
     first_set = normal_set(strength_a, strength_b)
     result(result_a, result_b, first_set[0], first_set[1])
     second_set = normal_set(strength_a, strength_b)
@@ -89,6 +87,21 @@ def main():
                   third_set[0], third_set[1],
                   fourth_set[0], fourth_set[1], 
                   fifth_set[0], fifth_set[1]))
+    if sum(result_a) == 3:
+        winner, strength = name_a, strength_a
+    else:
+        winner, strength = name_b, strength_b
+    return winner, strength
             
-main()
+def tournament():
+    team_1, strength_1 = inputs()
+    team_2, strength_2 = inputs()
+    team_3, strength_3 = inputs()
+    team_4, strength_4 = inputs()
+    winner_1, win_strength_1 = match(team_1, strength_1, team_2, strength_2)
+    winner_2, win_strength_2 = match(team_3, strength_3, team_4, strength_4)
+    winner_final = match(winner_1, win_strength_1, winner_2, win_strength_2)
+    print("****************************************")
+    print("Tournament winner is", winner_final[0])
     
+tournament()
