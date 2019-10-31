@@ -1,3 +1,5 @@
+#this is a version of basketball simulation
+
 from random import *
 
 def prob(x, y):
