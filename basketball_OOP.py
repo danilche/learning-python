@@ -6,7 +6,7 @@ class Team:
 
     def __init__(self, name, strength, wins, loses):
         self.name = name
-        self.strength = int(strength)
+        self.strength = float(strength)
         self.wins = int(wins)
         self.loses = int(loses)
 
@@ -77,13 +77,31 @@ def print_score(team_a_name, team_b_name, score_a, score_b):
     print("{} - {}    {}:{}".format(team_a_name, team_b_name, score_a, score_b))
 
     
-def print_standings(team_a, team_b, team_c, team_d,
-                    team_a_wins, team_b_wins, team_c_wins, team_d_wins,
-                    team_a_loses, team_b_loses, team_c_loses, team_d_loses):
-    print("{}     {} - {}".format(team_a, team_a_wins, team_a_loses))
-    print("{}     {} - {}".format(team_b, team_b_wins, team_b_loses))
-    print("{}     {} - {}".format(team_c, team_c_wins, team_c_loses))
-    print("{}     {} - {}".format(team_d, team_d_wins, team_d_loses))
+# def print_standings(team_a, team_b, team_c, team_d,
+#                     team_a_wins, team_b_wins, team_c_wins, team_d_wins,
+#                     team_a_loses, team_b_loses, team_c_loses, team_d_loses):
+#     print("{}     {} - {}".format(team_a, team_a_wins, team_a_loses))
+#     print("{}     {} - {}".format(team_b, team_b_wins, team_b_loses))
+#     print("{}     {} - {}".format(team_c, team_c_wins, team_c_loses))
+#     print("{}     {} - {}".format(team_d, team_d_wins, team_d_loses))
+
+def print_standings(team_a, team_a_wins, team_a_loses,
+                    team_b, team_b_wins, team_b_loses,
+                    team_c, team_c_wins, team_c_loses, 
+                    team_d, team_d_wins, team_d_loses):
+    pool_wins = {team_a:team_a_wins, team_b:team_b_wins,
+                 team_c:team_c_wins, team_d:team_d_wins}
+    pool_loses = {team_a:team_a_loses, team_b:team_b_loses,
+                 team_c:team_c_loses, team_d:team_d_loses}
+    wins = sorted(pool_wins.values(), reverse=True)
+    loses = sorted(pool_loses.values())
+    teams = sorted(pool_wins, key=pool_wins.get, reverse=True)
+    sep = "      "
+    print()
+    print("Standings:")
+    print()
+    for j in range(4):
+        print("{}{}{}-{}".format(teams[j], sep, wins[j], loses[j]))
 
 def round(team_a, team_b, team_c, team_d,):    
     team_a_score, team_b_score = game(team_a.name, team_a.strength,
@@ -99,9 +117,11 @@ def round(team_a, team_b, team_c, team_d,):
                team_a_score, team_b_score)
     print_score(team_c.name, team_d.name,
                team_c_score, team_d_score)
-    print_standings(team_a.name, team_b.name, team_c.name, team_d.name,
-                    team_a.wins, team_b.wins, team_c.wins, team_d.wins,
-                    team_a.loses, team_b.loses, team_c.loses, team_d.loses)
+    print()
+    print_standings(team_a.name, team_a.wins, team_a.loses,
+                    team_b.name, team_b.wins, team_b.loses,
+                    team_c.name, team_c.wins, team_c.loses,
+                    team_d.name, team_d.wins, team_d.loses)
     print("---------------------------")
 
 def main():
@@ -110,7 +130,6 @@ def main():
     team_2 = make_team(team_inputs())
     team_3 = make_team(team_inputs())
     team_4 = make_team(team_inputs())
-    
     
     ###--1st round
     ###-----------------------------------
@@ -123,8 +142,17 @@ def main():
     ###--3rd round
     ###-----------------------------------
     round_3 = round(team_1, team_3, team_2, team_4)
-    
-
+    ###--4th round
+    ###-----------------------------------
+    round_1 = round(team_4, team_3, team_2, team_1)
+    ###-----------------------------------
+    ###--5th round
+    ###-----------------------------------
+    round_2 = round(team_1, team_4, team_2, team_3)
+    ###-----------------------------------
+    ###--6th round
+    ###-----------------------------------
+    round_3 = round(team_4, team_2, team_3, team_1)
     
 
     
