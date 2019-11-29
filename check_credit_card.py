@@ -1,3 +1,5 @@
+#program that checks whether CC is a valid MC, AMEX or VISA number
+
 def break_digits_apply_luhns(my_str):
     first_list = [int(my_str[j]) for j in range(0, len(my_str), 2)]
     second_list = [int(my_str[j]) for j in range(1, len(my_str), 2)]
