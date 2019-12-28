@@ -8,42 +8,26 @@ def break_digits_apply_luhns(my_str):
     for j in range(len(second_list)):
         if second_list[j] >= 10:
             second_list[j] = second_list[j] - 9
-    total = sum(first_list) + sum(second_list)
-    return total        
+    return sum(first_list) + sum(second_list)       
             
 def main():
     ccn = input("Enter CC number: ")
     str_ccn = str(ccn)[::-1]
     dig2 = str_ccn[-1] + str_ccn[-2]
-    
-    #checking if CC is AMEX and if so, applying Luhn's algorithm
-    
-    if dig2 in ['34', '37'] and len(str_ccn) == 15:
-        total = break_digits_apply_luhns(str_ccn)
-        if total % 10 == 0:
+    ####check if two digits sums modulo 10 equals zero####
+    if break_digits_apply_luhns(str_ccn) % 10 != 0:
+        print("INVALID")
+    else:   
+    ##########checking if CC is AMEX#######################   
+        if dig2 in ['34', '37'] and len(str_ccn) == 15:
             print("AMEX")
-        else:
-            print("INVALID")
-     
-    #checking if CC is MASTERCARD and if so, applying Luhn's algorithm
-    
-    elif 51 <= int(dig2) <= 55 and len(str_ccn) == 16:
-        total = break_digits_apply_luhns(str_ccn)
-        if total % 10 == 0:
+    ############checking if CC is MASTERCARD###############   
+        elif 51 <= int(dig2) <= 55 and len(str_ccn) == 16:
             print("MASTERCARD")
-        else:
-            print("INVALID")
-            
-    #checking if CC is VISA and if so, applying Luhn's algorithm
-    
-    elif str_ccn[-1] == '4' and len(str_ccn) in [13, 16]:
-        total = break_digits_apply_luhns(str_ccn)
-        if total % 10 == 0:
+    #################checking if CC is VISA################
+        elif str_ccn[-1] == '4' and len(str_ccn) in [13, 16]:
             print("VISA")
         else:
             print("INVALID")    
-    else:
-        print("INVALID")
-    
 main()
  
